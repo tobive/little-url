@@ -107,8 +107,12 @@ exports.get = function(shortUrl,callback){
             //assert.equal(2,docs.length)
             console.log("Found the following records")
             console.dir(docs)
-            if(docs.length===0) console.log("kosong")
-            callback(docs[0].url_long)
+            if(docs.length===0) {
+                console.log("kosong")
+                callback(0)
+            } else {
+                callback(docs[0].url_long)
+            }
         })
     })
 }

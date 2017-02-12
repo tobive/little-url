@@ -10,7 +10,11 @@ app.get('/',function(req,res){
 app.get('/:id',function(req,res){//fetch short url, look up in db, then redirect
     //res.send(req.params.id)
     database.get(req.params.id,function(link){
-        res.redirect(link)
+        if(link===0){
+            res.send("Failed link")
+        } else {
+            res.redirect(link)
+        }
     })
 })
 
