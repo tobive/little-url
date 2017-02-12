@@ -4,11 +4,14 @@ var linkRegex = new RegExp("^https?:\/\/w{0,3}\\.?[a-zA-Z0-9-]{3,63}\\.[a-z]{2,4
 var database = require('./app.js')
 
 app.get('/',function(req,res){
-    res.send("you're in main")
+    res.send("You're in main")
 })
 
-app.get('/:id',function(req,res){
-    res.send(req.params.id)
+app.get('/:id',function(req,res){//fetch short url, look up in db, then redirect
+    //res.send(req.params.id)
+    database.get(req.params.id,function(link){
+        res.redirect(link)
+    })
 })
 
 app.get('/new/:id',function(req,res){
@@ -23,7 +26,6 @@ app.get('/new/*',function(req,res){
         console.log(linkRegex.test(link))
         json.original_url = link
         database.save(link,function(result,url_short){
-            console.log("yg ini url_short :"+url_short)
             json.short_url = "https://"+req.headers.host+"/"+url_short
             res.send(json)
         })
