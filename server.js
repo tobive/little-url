@@ -25,7 +25,7 @@ app.get('/new/*',function(req,res){
     if(linkRegex.test(link)){
         console.log(linkRegex.test(link))
         json.original_url = link
-        database.save(link,function(result,url_short){
+        database.save(link,function(result,url_short){//save to database, return short link
             json.short_url = "https://"+req.headers.host+"/"+url_short
             res.send(json)
         })

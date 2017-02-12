@@ -78,7 +78,7 @@ var showSeq = function(db,callback){
 }
 
 exports.save = function(http,callback) {
-    var url = 'mongodb://localhost:27017/myproject'
+    var url = process.env.MONGOLAB_URI
     mongoClient.connect(url,function(err,db){
         assert.equal(null, err)
         console.log("connected correctly to server")
@@ -99,7 +99,7 @@ exports.save = function(http,callback) {
 }
 
 exports.get = function(shortUrl,callback){
-    var url = 'mongodb://localhost:27017/myproject'
+    var url = process.env.MONGOLAB_URI
     mongoClient.connect(url,function(err,db){
         var collection = db.collection('documents')
         collection.find({url_short:shortUrl}).toArray(function(err,docs){
