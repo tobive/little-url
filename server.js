@@ -4,15 +4,17 @@ var linkRegex = new RegExp("^https?:\/\/w{0,3}\\.?[a-zA-Z0-9-]{3,63}\\.[a-z]{2,4
 var database = require('./app.js')
 
 app.get('/',function(req,res){
-    res.send("You're in main")
+    res.sendfile('index.html')
 })
 
 app.get('/:id',function(req,res){//fetch short url, look up in db, then redirect
     //res.send(req.params.id)
     database.get(req.params.id,function(link){
         if(link===0){
+            console.log("Link from get return 0")
             res.send("Failed link")
         } else {
+            console.log("Redirecting link to "+link)
             res.redirect(link)
         }
     })

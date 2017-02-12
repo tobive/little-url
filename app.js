@@ -37,7 +37,6 @@ var updateCounter = function(db,callback){//increment sequence in document in 'c
     collection.updateOne({id:'url'},{$inc:{seq:1}},
     function(err,result){
         if(err) console.error(err)
-        //assert.equal(1,result.result.n)
         console.log("Incrementing the counter")
         callback(result);
     })
@@ -47,8 +46,7 @@ var deleteDocument = function(db,callback){
     var collection = db.collection('documents')
     collection.deleteMany({},function(err,result){
         assert.equal(err,null)
-       //assert.equal(1,result.result.n)
-        console.log("Removed the document with the field a equal to 3")
+        console.log("Removed a document")
         callback(result)
     })
 }
@@ -57,21 +55,8 @@ var findDocument = function(urlShort,db,callback){
     var collection = db.collection('documents')
     collection.find({url_short:urlShort}).toArray(function(err,docs){
         assert.equal(err,null)
-        //assert.equal(2,docs.length)
         console.log("Found the following records")
-        console.dir(docs)
-        if(docs.length===0) console.log("kosong")
-        callback(docs)
-    })
-}
-
-var showSeq = function(db,callback){
-    var collection = db.collection('counter')
-    collection.find({}).toArray(function(err,docs){
-        assert.equal(err,null)
-        //assert.equal(2,docs.length)
-        console.log("Found the following records")
-        console.log(docs[0])
+        //console.dir(docs)
         if(docs.length===0) console.log("kosong")
         callback(docs)
     })
@@ -85,11 +70,6 @@ exports.save = function(http,callback) {
         returnSequence(db,function(seq){
             insertDocument(http,seq,db,function(res,urls){
                 updateCounter(db,function(){
-                    // findDocument("http://aaa",db,function(){
-                    //     showSeq(db,function(){
-                    //         db.close()
-                    //     })
-                    // })
                     db.close()
                     callback(res,urls)
                 })
@@ -104,11 +84,10 @@ exports.get = function(shortUrl,callback){
         var collection = db.collection('documents')
         collection.find({url_short:shortUrl}).toArray(function(err,docs){
             assert.equal(err,null)
-            //assert.equal(2,docs.length)
             console.log("Found the following records")
-            console.dir(docs)
+            //console.dir(docs)
             if(docs.length===0) {
-                console.log("kosong")
+                console.log("empty get")
                 callback(0)
             } else {
                 callback(docs[0].url_long)
