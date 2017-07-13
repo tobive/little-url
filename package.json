@@ -12,5 +12,8 @@
     "express": "^4.14.1",
     "hashids": "^1.1.1",
     "mongodb": "^2.2.22"
+  },
+  "engines" : {
+    "node": "7.10.0"
   }
 }
